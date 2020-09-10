@@ -115,6 +115,13 @@ namespace WowUp.WPF.Entities
             set { SetProperty(ref _installedFolders, value); }
         }
 
+        private string _folderHashes;
+        public string FolderHashes
+        {
+            get => _folderHashes;
+            set { SetProperty(ref _folderHashes, value); }
+        }
+
         private bool _isIgnored;
         public bool IsIgnored
         {

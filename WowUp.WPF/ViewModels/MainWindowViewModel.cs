@@ -134,6 +134,8 @@ namespace WowUp.WPF.ViewModels
 
         public async void OnLoaded()
         {
+            await HashUtilities.HashDirectory("C:\\Program Files (x86)\\World of Warcraft\\_retail_\\Interface\\AddOns\\AAP-Core");
+            
             _analyticsService.PromptTelemetry();
             await _analyticsService.TrackStartup();
 
