@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Security;
-using System.Security.Permissions;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace WowUp.WPF.Utilities
@@ -86,8 +85,8 @@ namespace WowUp.WPF.Utilities
 
         public static async Task<string> GetFileTextAsync(string filePath)
         {
-            using var reader = File.OpenText(filePath);
-            return await reader.ReadToEndAsync();
+            var bytes = await File.ReadAllBytesAsync(filePath);
+            return Encoding.UTF8.GetString(bytes, 0, bytes.Length);
         }
 
         public static async Task DeleteDirectory(string filePath)
@@ -168,5 +167,7 @@ namespace WowUp.WPF.Utilities
                 }
             }
         }
+
+        
     }
 }
