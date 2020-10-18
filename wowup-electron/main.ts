@@ -12,6 +12,7 @@ import {
 } from "electron";
 import * as path from "path";
 import * as url from "url";
+import * as fs from 'fs';
 import { release, arch } from "os";
 import * as electronDl from "electron-dl";
 import { DownloadRequest } from "./src/common/models/download-request";
@@ -25,10 +26,20 @@ import * as Store from "electron-store";
 import { WindowState } from "./src/common/models/window-state";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
+import initSqlJs from "sql.js";
 
 const isMac = process.platform === "darwin";
 const isWin = process.platform === "win32";
 const preferenceStore = new Store({ name: "preferences" });
+
+var filebuffer = fs.readFileSync('C:/Users/trade/AppData/Local/WowUp/WowUp.db3');
+
+initSqlJs().then((SQL) => {
+  var db = new SQL.Database(filebuffer);
+  var contents = db.exec("SELECT * FROM Preferences");
+  var addons = db.exec("SELECT * FROM Addons");
+  console.log('SQL LOADED')
+})
 
 let appIsQuitting = false;
 
