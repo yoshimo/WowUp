@@ -177,10 +177,16 @@
 
       <ng-container matColumnDef="addon.latestVersion">
         <th mat-header-cell mat-sort-header *matHeaderCellDef>
-          {{ "PAGES.MY_ADDONS.TABLE.LATEST_VERSION_COLUMN_HEADER" | translate }}
+          Version
         </th>
         <td mat-cell *matCellDef="let element" class="cell-padding">
-          {{ element.addon.latestVersion }}
+          <div *ngIf="element.isUpToDate; else showBothVersions">
+            {{ element.addon.latestVersion }}
+          </div>
+          <ng-template #showBothVersions>
+            <span>{{ element.addon.installedVersion }}</span> &nbsp;➤&nbsp; <span style="color:#dacc7c">{{ element.addon.latestVersion }}</span>
+          </ng-template>
+          
         </td>
       </ng-container>
 
