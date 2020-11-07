@@ -136,6 +136,9 @@ export class TukUiAddonProvider implements AddonProvider {
     addonFolders: AddonFolder[]
   ): Promise<void> {
     const allAddons = await this.getAllAddons(clientType);
+
+    let knownFolders = {};
+
     for (let addonFolder of addonFolders) {
       let tukUiAddon: TukUiAddon;
       if (addonFolder.toc?.tukUiProjectId) {
@@ -152,7 +155,7 @@ export class TukUiAddonProvider implements AddonProvider {
       }
 
       if (tukUiAddon) {
-        addonFolder.matchingAddon = {
+        let addon = {
           autoUpdateEnabled: false,
           channelType: addonChannelType,
           clientType: clientType,
@@ -176,8 +179,21 @@ export class TukUiAddonProvider implements AddonProvider {
           screenshotUrls: [tukUiAddon.screenshot_url],
           releasedAt: new Date(`${tukUiAddon.lastupdate} UTC`),
         };
+        if (addonFolder.toc.tukUiProjectFolders) {
+          for (let tukUiFolder of addonFolder.toc.tukUiProjectFolders.split(',')) {
+            knownFolders[tukUiFolder] = addon;
+          }
+        }
+        addonFolder.matchingAddon = addon;
       }
     }
+
+    for (let addonFolder of addonFolders) {
+      if (!addonFolder.matchingAddon && addonFolder.name in knownFolders) {
+        addonFolder.matchingAddon = knownFolders[addonFolder.name];
+      }
+    }
+
   }
 
   private async searchAddons(addonName: string, clientType: WowClientType) {
