@@ -573,7 +573,12 @@ export class AddonService {
       }
     }
 
-    const nonMatchedFolders = addonFolders.filter((af) => !af.matchingAddon && af.toc);
+    let nonMatchedFolders = addonFolders.filter((af) => !af.matchingAddon && af.toc);
+    let nonMatchedFolderNames = addonFolders.map(af => af.name);
+    nonMatchedFolders = nonMatchedFolders.filter(
+      af => nonMatchedFolderNames.indexOf(af.toc.requiredDeps) === -1
+    );
+
     const matchedAddonFolders = addonFolders.filter((addonFolder) => !!addonFolder.matchingAddon);
     const matchedGroups = _.groupBy(
       matchedAddonFolders,

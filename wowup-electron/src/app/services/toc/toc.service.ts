@@ -27,6 +27,7 @@ export class TocService {
       localizations: this.getValue("X-Localizations", tocText),
       wowInterfaceId: this.getValue("X-WoWI-ID", tocText),
       dependencies: this.getValue("Dependencies", tocText),
+      requiredDeps: this.getValue("RequiredDeps", tocText),
       tukUiProjectId: this.getValue("X-Tukui-ProjectID", tocText),
       tukUiProjectFolders: this.getValue("X-Tukui-ProjectFolders", tocText),
       modificationDate: modificationDate,

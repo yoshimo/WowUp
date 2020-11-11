@@ -8,6 +8,7 @@ export interface Toc {
   category?: string;
   localizations?: string;
   dependencies?: string;
+  requiredDeps?: string;
   curseProjectId?: string;
   wowInterfaceId?: string;
   tukUiProjectId?: string;
