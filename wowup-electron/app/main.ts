@@ -422,8 +422,6 @@ function createWindow(): BrowserWindow {
       win.maximize();
     }
 
-    appUpdater.checkForUpdates().catch((e) => console.error(e));
-
     win.on("show", () => {
       win?.webContents?.send(IPC_WINDOW_RESUME);
     });
