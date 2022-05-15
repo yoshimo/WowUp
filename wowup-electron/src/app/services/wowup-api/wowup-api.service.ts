@@ -54,6 +54,7 @@ export class WowUpApiService {
 
     return from(this._circuitBreaker.getJson<BlockListRepresentation>(url)).pipe(
       tap((response) => {
+        response.curse.authors = [];
         this._cacheService.set(BLOCKLIST_CACHE_KEY, response, BLOCKLIST_CACHE_TTL_SEC);
       })
     );
