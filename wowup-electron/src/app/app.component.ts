@@ -123,6 +123,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
           this._snackbarService.showErrorSnackbar("APP.WOWUP_UPDATE.UPDATE_ERROR");
         }
       } else if (evt.state === AppUpdateState.Downloaded) {
+        return;
         // Force the user to update when one is ready
         const dialogRef = this._dialog.open(AlertDialogComponent, {
           minWidth: 250,
