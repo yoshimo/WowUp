@@ -63,7 +63,7 @@ export class SessionService {
     this._myAddonsCompactVersionSrc.next(val);
   }
 
-  public didPromptCfMigration = false;
+  public didPromptCfMigration = true;
 
   public constructor(
     private _warcraftInstallationService: WarcraftInstallationService,
