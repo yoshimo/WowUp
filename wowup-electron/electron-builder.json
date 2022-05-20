@@ -12,7 +12,7 @@
   "win": {
     "icon": "electron-build/icon.ico",
     "target": ["nsis", "portable"],
-    "forceCodeSigning": true,
+    "forceCodeSigning": false,
     "publisherName": "WowUp LLC"
   },
   "nsis": {
@@ -27,7 +27,7 @@
         "arch": ["x64", "arm64"]
       }
     ],
-    "hardenedRuntime": true,
+    "hardenedRuntime": false,
     "entitlements": "./electron-build/entitlements.mac.plist",
     "extendInfo": {
       "CFBundleURLTypes": [
