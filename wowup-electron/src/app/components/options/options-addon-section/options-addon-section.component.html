@@ -41,6 +41,11 @@
         <input matInput formControlName="cfV2ApiKey" type="password" />
       </mat-form-field>
     </div>
+    <div class="setting row align-items-center">
+      <button type="button" mat-flat-button color="primary" (click)="insertCurseApiKey()">
+        {{ "PAGES.OPTIONS.ADDON.CURSE_FORGE_V2.INSERT_API_KEY" | translate }}
+      </button>
+    </div>
     <div class="divider"></div>
     <div class="setting row align-items-center">
       <div class="flex-grow-1">

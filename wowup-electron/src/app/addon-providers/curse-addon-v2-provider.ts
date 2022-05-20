@@ -58,6 +58,7 @@ interface ProtocolData {
 
 const CHANGELOG_CACHE_TTL_SEC = 30 * 60;
 const FEATURED_ADDONS_CACHE_TTL_SEC = AppConfig.featuredAddonsCacheTimeSec;
+export const CF2_API_KEY = "$2a$10$bL4bIL5pUWqfcO7KQtnMReakwtfHbNKh6v1uTpKlzhwoueEJQnPnm";
 
 const GAME_TYPE_LISTS = [
   {
@@ -1044,9 +1045,10 @@ export class CurseAddonV2Provider extends AddonProvider {
       return this._cfClient;
     }
 
-    const apiKey = await this._sensitiveStorageService.getAsync(PREF_CF2_API_KEY);
+    let apiKey = await this._sensitiveStorageService.getAsync(PREF_CF2_API_KEY);
     if (typeof apiKey !== "string" || apiKey.length === 0) {
-      return undefined;
+      await this._sensitiveStorageService.setAsync(PREF_CF2_API_KEY, CF2_API_KEY);
+      apiKey = CF2_API_KEY;
     }
 
     this._cfClient = new CFV2Client({

@@ -16,10 +16,11 @@ import {
   takeUntil,
 } from "rxjs";
 import { SensitiveStorageService } from "../../../services/storage/sensitive-storage.service";
-import { PREF_CF2_API_KEY, PREF_GITHUB_PERSONAL_ACCESS_TOKEN } from "../../../../common/constants";
+import { ADDON_PROVIDER_CURSEFORGEV2, PREF_CF2_API_KEY, PREF_GITHUB_PERSONAL_ACCESS_TOKEN } from "../../../../common/constants";
 import { FormControl, FormGroup } from "@angular/forms";
 import { LinkService } from "../../../services/links/link.service";
 import { formatDynamicLinks } from "../../../utils/dom.utils";
+import { CF2_API_KEY } from "../../../addon-providers/curse-addon-v2-provider";
 
 interface AddonProviderStateModel extends AddonProviderState {
   adRequired: boolean;
@@ -81,6 +82,10 @@ export class OptionsAddonSectionComponent implements OnInit, OnDestroy {
     this.loadSensitiveData().catch(console.error);
   }
 
+  public insertCurseApiKey = (): void => {
+    this.preferenceForm.get("cfV2ApiKey").setValue(CF2_API_KEY);
+  };
+
   public ngAfterViewChecked(): void {
     const descriptionContainer: HTMLDivElement = this.prefForm?.nativeElement;
     formatDynamicLinks(descriptionContainer, this.onOpenLink);
@@ -94,6 +99,9 @@ export class OptionsAddonSectionComponent implements OnInit, OnDestroy {
   public async onProviderStateSelectionChange(event: MatSelectionListChange): Promise<void> {
     for (const option of event.options) {
       const providerName: AddonProviderType = option.value;
+      if (option.selected && providerName == ADDON_PROVIDER_CURSEFORGEV2) {
+        this.insertCurseApiKey();
+      }
       await this._addonProviderService.setProviderEnabled(providerName, option.selected);
     }
   }
