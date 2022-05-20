@@ -20,6 +20,8 @@ import { ADDON_PROVIDER_CURSEFORGEV2, PREF_CF2_API_KEY, PREF_GITHUB_PERSONAL_ACC
 import { FormControl, FormGroup } from "@angular/forms";
 import { LinkService } from "../../../services/links/link.service";
 import { formatDynamicLinks } from "../../../utils/dom.utils";
+import { CurseMigrationDialogComponent } from "../../../components/common/curse-migration-dialog/curse-migration-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
 import { CF2_API_KEY } from "../../../addon-providers/curse-addon-v2-provider";
 
 interface AddonProviderStateModel extends AddonProviderState {
@@ -45,6 +47,7 @@ export class OptionsAddonSectionComponent implements OnInit, OnDestroy {
   });
 
   public constructor(
+    private _dialog: MatDialog,
     private _addonProviderService: AddonProviderFactory,
     private _sensitiveStorageService: SensitiveStorageService,
     private _linkService: LinkService
@@ -81,6 +84,12 @@ export class OptionsAddonSectionComponent implements OnInit, OnDestroy {
     this.loadProviderStates();
     this.loadSensitiveData().catch(console.error);
   }
+
+  public openCurseMigrationDialog = (): void => {
+    this._dialog.open(CurseMigrationDialogComponent, {
+      disableClose: true,
+    });
+  };
 
   public insertCurseApiKey = (): void => {
     this.preferenceForm.get("cfV2ApiKey").setValue(CF2_API_KEY);

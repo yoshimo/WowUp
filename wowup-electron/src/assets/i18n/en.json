@@ -489,6 +489,7 @@
           "INSERT_API_KEY": "Insert CurseForge API Key",
           "PROVIDER_NOTE": "API Key Required"
         },
+        "CURSE_MIGRATION_BUTTON": "CurseForge Migration",
         "ENABLED_PROVIDERS": {
           "DESCRIPTION": "Select which providers may be used to search for, and install new addons",
           "FIELD_LABEL": "Enabled Addon Providers",

@@ -27,6 +27,15 @@
     </div>
   </div>
 
+  <div>
+    <div class="divider"></div>
+    <div class="setting row align-items-center">
+      <button mat-flat-button color="primary" (click)="openCurseMigrationDialog()">
+        {{ "PAGES.OPTIONS.ADDON.CURSE_MIGRATION_BUTTON" | translate }}
+      </button>
+    </div>
+  </div>
+
   <form #prefForm [formGroup]="preferenceForm">
     <div class="divider"></div>
     <div class="setting row align-items-center">
