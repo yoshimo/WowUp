@@ -159,6 +159,7 @@ const WAGO_AD_PRELOAD = "preload/wago.js";
 const WAGO_SEARCH_CACHE_TIME_SEC = 60;
 const WAGO_DETAILS_CACHE_TIME_SEC = 60;
 const WAGO_FEATURED_ADDONS_CACHE_TIME_SEC = 60;
+const WAGO_RELOAD_PERIOD_SEC = 10 * 60;
 
 export class WagoAddonProvider extends AddonProvider {
   private readonly _circuitBreaker: CircuitBreakerWrapper;
@@ -172,7 +173,7 @@ export class WagoAddonProvider extends AddonProvider {
   public readonly forceIgnore = false;
   public enabled = true;
   public authRequired = true;
-  public adRequired = true;
+  public adRequired = false;
   public allowEdit = true;
   public allowReinstall = true;
   public allowChannelChange = true;
@@ -193,6 +194,7 @@ export class WagoAddonProvider extends AddonProvider {
     );
 
     this._electronService.on("wago-token-received", this.onWagoTokenReceived);
+    void this.getWagoToken();
   }
 
   public isValidAddonId(addonId: string): boolean {
@@ -662,6 +664,28 @@ export class WagoAddonProvider extends AddonProvider {
     const filePaths = addonFolders.map((addonFolder) => addonFolder.path);
     const scanResults: AppWowUpScanResult[] = await this._electronService.invoke("wowup-get-scan-results", filePaths);
     return scanResults;
+  };
+
+  private getWagoToken = async () => {
+    const url = new URL(`${WAGO_AD_URL}`);
+    const response = await this._cachingService.transaction(
+      `${url.toString()}`,
+      () => this._circuitBreaker.getText(url, { "User-Agent": WAGO_AD_USER_AGENT }),
+      WAGO_FEATURED_ADDONS_CACHE_TIME_SEC
+    );
+
+    console.debug(`[wago] getWagoToken`, response);
+
+    if (response) {
+      const token = response.match(/provideApiKey\(atob\('(.*?)'/);
+      if (token && token.length > 1)
+      {
+        console.debug(`[wago] getWagoToken`, token[1]);
+        this.onWagoTokenReceived(null, Buffer.from(token[1], 'base64').toString());
+      }
+    }
+
+    setTimeout(() => { void this.getWagoToken() }, WAGO_RELOAD_PERIOD_SEC * 1000);
   };
 
   private onWagoTokenReceived = (evt, token: string) => {

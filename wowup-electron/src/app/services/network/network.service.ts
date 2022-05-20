@@ -72,11 +72,17 @@ export class CircuitBreakerWrapper {
     );
   }
 
-  public getText(url: URL | string, timeoutMs?: number): Promise<string> {
+  public getText(
+    url: URL | string,
+    headers: {
+      [header: string]: string | string[];
+    } = {},
+    timeoutMs?: number
+  ): Promise<string> {
     return this.fire(() =>
       firstValueFrom(
         this._httpClient
-          .get(url.toString(), { responseType: "text", headers: { ...CACHE_CONTROL_HEADERS } })
+          .get(url.toString(), { responseType: "text", headers: { ...CACHE_CONTROL_HEADERS, ...headers } })
           .pipe(first(), timeout(timeoutMs ?? this._defaultTimeoutMs))
       )
     );
