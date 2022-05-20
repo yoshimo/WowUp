@@ -216,3 +216,5 @@ export const USER_ACTION_ADDON_PROTOCOL_SEARCH = "addon-protocol-search";
 export const USER_ACTION_ADDON_INSTALL = "addon-install-action";
 
 export const TRUE_STR = true.toString();
+
+export const CURSE_V1_API_URL = "https://addons-ecs.forgesvc.net/api/v2"

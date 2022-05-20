@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import {
   ADDON_PROVIDER_CURSEFORGE,
+  CURSE_V1_API_URL,
   NO_LATEST_SEARCH_RESULT_FILES_ERROR,
   NO_SEARCH_RESULTS_ERROR,
 } from "../../common/constants";
@@ -56,7 +57,7 @@ interface WowUpCurseMatch extends CurseMatch {
   authorIds: string[];
 }
 
-const API_URL = "https://addons-ecs.forgesvc.net/api/v2";
+const API_URL = CURSE_V1_API_URL;
 const CHANGELOG_CACHE_TTL_SEC = 30 * 60;
 const FEATURED_ADDONS_CACHE_TTL_SEC = AppConfig.featuredAddonsCacheTimeSec;
 

@@ -12,6 +12,7 @@ import {
   APP_USER_MODEL_ID,
   COLLAPSE_TO_TRAY_PREFERENCE_KEY,
   CURRENT_THEME_KEY,
+  CURSE_V1_API_URL,
   DEFAULT_BG_COLOR,
   DEFAULT_LIGHT_BG_COLOR,
   IPC_CUSTOM_PROTOCOL_RECEIVED,
@@ -43,6 +44,7 @@ import { initializeDefaultPreferences } from "./preferences";
 import { PUSH_NOTIFICATION_EVENT, pushEvents } from "./push";
 import { initializeStoreIpcHandlers, preferenceStore } from "./stores";
 import { restoreWindow, windowStateManager } from "./window-state";
+import { BaseUrl as CURSE_V2_API_URL } from "curseforge-v2";
 
 // LOGGING SETUP
 // Override the default log path so they aren't a pain to find on Mac
@@ -303,6 +305,13 @@ function createWindow(): BrowserWindow {
   });
 
   win.webContents.userAgent = USER_AGENT;
+
+  win.webContents.session.webRequest.onBeforeSendHeaders((details, callback) => {
+    if (details.url.startsWith(CURSE_V1_API_URL) || details.url.startsWith(CURSE_V2_API_URL)) {
+      delete details.requestHeaders['User-Agent'];
+    }
+    callback({ cancel: false, requestHeaders: details.requestHeaders });
+  });
 
   win.webContents.on("will-attach-webview", (evt, webPreferences) => {
     log.debug("will-attach-webview");
