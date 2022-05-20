@@ -660,7 +660,7 @@ export class CurseAddonV2Provider extends AddonProvider {
         downloadCount: result.downloadCount,
         summary: result.summary,
         screenshotUrls: this.getScreenshotUrls(result),
-        externallyBlocked: result.allowModDistribution === false,
+        externallyBlocked: false,
       };
 
       return searchResult;
