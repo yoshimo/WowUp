@@ -9,3 +9,9 @@ export interface CurseBlocksRepresentation {
 export interface BlockListRepresentation {
   curse: CurseBlocksRepresentation;
 }
+
+export const EmptyBlockList: BlockListRepresentation = {
+  curse: {
+    authors: [] as CurseAuthorBlockRepresentation[]
+  } as CurseBlocksRepresentation
+};
