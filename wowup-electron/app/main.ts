@@ -161,10 +161,6 @@ if (app.isReady()) {
     // setTimeout(() => {
     createWindow();
     // }, 400);
-
-    // Preload native lib
-    const nativeAddon = require("../build/Release/addon.node");
-    nativeAddon.hello();
   });
 }
 
@@ -324,6 +320,14 @@ function createWindow(): BrowserWindow {
 
   win.webContents.on("did-attach-webview", (evt, webContents) => {
     webContents.session.setUserAgent(webContents.userAgent);
+
+    webContents.on("preload-error", (evt) => {
+      log.error("[webview] preload-error", evt);
+    });
+
+    webContents.on("did-fail-provisional-load", (evt) => {
+      log.error("[webview] did-fail-provisional-load", evt);
+    });
 
     webContents.session.setPermissionRequestHandler((contents, permission, callback) => {
       log.warn("setPermissionRequestHandler", permission);
